@@ -1,5 +1,5 @@
 export default time => {
-  const digit = number => (number < 10 ? `0${number}` : `{n}`);
+  const digit = number => (number < 10 ? `0${number}` : `${number}`);
 
   const seconds = digit(Math.floor(time % 60));
   const minutes = digit(Math.floor((time / 60) % 60));

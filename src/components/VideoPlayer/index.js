@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useRef, useMemo } from 'react';
 import { Text, StyleSheet, TouchableNativeFeedback } from 'react-native';
 
 import Video from 'react-native-video';
-// import Icon from 'react-native-vector-icons/FontAwesome';
+import Slider from '@react-native-community/slider';
 
 import getTime from '~/utils/getTime';
 
@@ -20,14 +19,6 @@ import {
 } from './styles';
 
 const mp4 = require('./sample.mp4');
-
-const styleShit = {
-  color: '#fff',
-  flex: 1,
-  textAlign: 'center',
-  textAlignVertical: 'center',
-  fontSize: 25,
-};
 
 export default function VideoPlayer() {
   const [currentTime, setCurrentTime] = useState(0);
@@ -46,6 +37,10 @@ export default function VideoPlayer() {
 
   function youtubeSeekRight() {}
 
+  function onSlide(value) {
+    console.log(value);
+  }
+
   function backward() {}
 
   function forward() {}
@@ -60,8 +55,8 @@ export default function VideoPlayer() {
             player.current = ref;
           }}
           resizeMode="cover"
-          onLoad={() => {}}
-          onProgress={() => {}}
+          onLoad={({ duration }) => setDuration(duration)}
+          onProgress={({ currentTime }) => setCurrentTime(currentTime)}
           style={{ ...StyleSheet.absoluteFill }}
         />
 
@@ -80,6 +75,14 @@ export default function VideoPlayer() {
                   <Time>{formattedCurrentTime}</Time>
                   <Time>{formattedDuration}</Time>
                 </Timer>
+
+                <Slider
+                  maximumTrackTintColor="#fff"
+                  minimumTrackTintColor="#fff"
+                  thumbTintColor="#fff"
+                  value={currentTime / duration}
+                  onValueChange={onSlide}
+                />
               </SliderContainer>
             </Overlayset>
           ) : (
