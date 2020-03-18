@@ -11,13 +11,14 @@ import { StyleSheet } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import Video from 'react-native-video';
+import PropTypes from 'prop-types';
 
 import { Container, Black, BlackFullScreen } from './styles';
 
 import FullScreenContext from '~/store/FullScreenContext';
 import Controls from './Controls';
 
-export default function VideoPlayer() {
+export default function VideoPlayer({ uri }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(3600);
   const [paused, setPaused] = useState(false);
@@ -116,10 +117,7 @@ export default function VideoPlayer() {
       <VideoWrraper fullscreen={fullscreen} elevation={1}>
         <Video
           fullscreen={fullscreen}
-          source={{
-            uri:
-              'https://d1rfq3h2na8ms8.cloudfront.net/editorial/2018/12-11/Rn8KKQBy-medium.mp4',
-          }}
+          source={{ uri }}
           paused={paused}
           ref={ref => {
             player.current = ref;
@@ -146,3 +144,7 @@ export default function VideoPlayer() {
     </Container>
   );
 }
+
+VideoPlayer.propTypes = {
+  uri: PropTypes.string.isRequired,
+};
