@@ -16,7 +16,7 @@ import {
   IconWrapper,
 } from './styles';
 
-import formatSeconds from '~/utils/getTime';
+import formatSeconds from '~/utils/formatSeconds';
 
 import FullScreenContext from '~/store/FullScreenContext';
 
