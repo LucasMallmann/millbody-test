@@ -7,36 +7,15 @@ import React, {
   useContext,
 } from 'react';
 
-import {
-  StyleSheet,
-  TouchableNativeFeedback,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import Video from 'react-native-video';
-import Slider from '@react-native-community/slider';
-import Orientation from 'react-native-orientation';
 
-import getTime from '~/utils/getTime';
+import { Container, Black, BlackFullScreen } from './styles';
 
-import {
-  Container,
-  Black,
-  Overlay,
-  Overlayset,
-  OverlayControl,
-  Icon,
-  SliderContainer,
-  Timer,
-  Time,
-  IconWrapper,
-  BlackFullScreen,
-} from './styles';
 import FullScreenContext from '~/store/FullScreenContext';
-
-// const mp4 = require('./sample.mp4');
+import Controls from './Controls';
 
 export default function VideoPlayer() {
   const [currentTime, setCurrentTime] = useState(0);
@@ -44,7 +23,7 @@ export default function VideoPlayer() {
   const [paused, setPaused] = useState(false);
   const [overlay, setOverlay] = useState(false);
 
-  const { fullscreen, setFullScreen } = useContext(FullScreenContext);
+  const { fullscreen } = useContext(FullScreenContext);
 
   const { addListener } = useNavigation();
 
@@ -53,11 +32,6 @@ export default function VideoPlayer() {
       setPaused(true);
     });
   }, [addListener]);
-
-  const formattedDuration = useMemo(() => getTime(duration), [duration]);
-  const formattedCurrentTime = useMemo(() => getTime(currentTime), [
-    currentTime,
-  ]);
 
   const player = useRef();
 
@@ -80,16 +54,6 @@ export default function VideoPlayer() {
       }, DOUBLE_PRESS_DELAY);
     }
   };
-
-  function handleFullscreen() {
-    if (fullscreen) {
-      Orientation.lockToPortrait();
-    } else {
-      Orientation.lockToLandscape();
-    }
-
-    setFullScreen(!fullscreen);
-  }
 
   function youtubeSeekLeft() {
     handleDoubleTap({
@@ -135,6 +99,10 @@ export default function VideoPlayer() {
     overlayTimer();
   }
 
+  function togglePause() {
+    setPaused(!paused);
+  }
+
   const VideoWrraper = useMemo(() => {
     if (!fullscreen) {
       return Black;
@@ -162,53 +130,18 @@ export default function VideoPlayer() {
           style={{ ...StyleSheet.absoluteFill }}
         />
 
-        <Overlay>
-          {overlay ? (
-            <Overlayset overlay>
-              <Icon name="backward" onPress={backward} size={25} />
-              <Icon
-                name={paused ? 'play' : 'pause'}
-                onPress={() => setPaused(!paused)}
-                size={25}
-              />
-              <Icon name="forward" onPress={forward} size={25} />
-
-              <SliderContainer>
-                <Timer>
-                  <Time>{formattedCurrentTime}</Time>
-                  <IconWrapper>
-                    <Time>{formattedDuration}</Time>
-                    <TouchableOpacity onPress={handleFullscreen}>
-                      <Text style={{ marginLeft: 8 }}>
-                        <Icon
-                          name={fullscreen ? 'compress' : 'expand'}
-                          size={15}
-                        />
-                      </Text>
-                    </TouchableOpacity>
-                  </IconWrapper>
-                </Timer>
-
-                <Slider
-                  maximumTrackTintColor="#fff"
-                  minimumTrackTintColor="#7159c1"
-                  thumbTintColor="#7159c1"
-                  value={currentTime / duration}
-                  onValueChange={onSlide}
-                />
-              </SliderContainer>
-            </Overlayset>
-          ) : (
-            <Overlayset>
-              <TouchableNativeFeedback onPress={youtubeSeekLeft}>
-                <OverlayControl />
-              </TouchableNativeFeedback>
-              <TouchableNativeFeedback onPress={youtubeSeekRight}>
-                <OverlayControl />
-              </TouchableNativeFeedback>
-            </Overlayset>
-          )}
-        </Overlay>
+        <Controls
+          overlay={overlay}
+          backward={backward}
+          forward={forward}
+          paused={paused}
+          togglePause={togglePause}
+          currentTime={currentTime}
+          duration={duration}
+          onSlide={onSlide}
+          youtubeSeekLeft={youtubeSeekLeft}
+          youtubeSeekRight={youtubeSeekRight}
+        />
       </VideoWrraper>
     </Container>
   );
