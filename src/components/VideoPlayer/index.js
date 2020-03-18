@@ -3,6 +3,7 @@ import React, { useState, useRef } from 'react';
 import { Text, StyleSheet, TouchableNativeFeedback } from 'react-native';
 
 import Video from 'react-native-video';
+// import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
   Container,
@@ -10,9 +11,18 @@ import {
   Overlay,
   Overlayset,
   OverlayControl,
+  Icon,
 } from './styles';
 
 const mp4 = require('./sample.mp4');
+
+const styleShit = {
+  color: '#fff',
+  flex: 1,
+  textAlign: 'center',
+  textAlignVertical: 'center',
+  fontSize: 25,
+};
 
 export default function VideoPlayer() {
   const [currentTime, setCurrentTime] = useState(0);
@@ -25,6 +35,10 @@ export default function VideoPlayer() {
   function youtubeSeekLeft() {}
 
   function youtubeSeekRight() {}
+
+  function backward() {}
+
+  function forward() {}
 
   return (
     <Container>
@@ -43,7 +57,14 @@ export default function VideoPlayer() {
 
         <Overlay>
           {!overlay ? (
-            <Overlayset overlay />
+            <Overlayset overlay>
+              <Icon name="backward" onPress={backward} />
+              <Icon
+                name={paused ? 'play' : 'pause'}
+                onPress={() => setPaused(!paused)}
+              />
+              <Icon name="forward" onPress={forward} />
+            </Overlayset>
           ) : (
             <Overlayset>
               <TouchableNativeFeedback>

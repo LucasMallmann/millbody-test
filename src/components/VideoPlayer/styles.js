@@ -1,4 +1,6 @@
 import styled from 'styled-components/native';
+import VectorIcon from 'react-native-vector-icons/FontAwesome';
+
 import metrics from '~/styles/metrics';
 
 export const Container = styled.View``;
@@ -25,4 +27,12 @@ export const Overlayset = styled.View`
 
 export const OverlayControl = styled.View`
   flex: 1;
+`;
+
+export const Icon = styled(VectorIcon)`
+  color: #fff;
+  flex: 1;
+  text-align: center;
+  align-self: center;
+  font-size: 25px;
 `;
