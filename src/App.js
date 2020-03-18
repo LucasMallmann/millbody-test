@@ -20,7 +20,7 @@ const App = () => {
           <StatusBar
             barStyle="light-content"
             backgroundColor="#7159c1"
-            hidden
+            hidden={fullscreen}
           />
           <Routes />
         </FullScreenContext.Provider>

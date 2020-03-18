@@ -4,7 +4,9 @@ import React, {
   useMemo,
   useCallback,
   useEffect,
+  useContext,
 } from 'react';
+
 import {
   StyleSheet,
   TouchableNativeFeedback,
@@ -32,6 +34,7 @@ import {
   IconWrapper,
   BlackFullScreen,
 } from './styles';
+import FullScreenContext from '~/store/FullScreenContext';
 
 // const mp4 = require('./sample.mp4');
 
@@ -40,7 +43,8 @@ export default function VideoPlayer() {
   const [duration, setDuration] = useState(3600);
   const [paused, setPaused] = useState(false);
   const [overlay, setOverlay] = useState(false);
-  const [fullscreen, setFullscreen] = useState(false);
+
+  const { fullscreen, setFullScreen } = useContext(FullScreenContext);
 
   const { addListener } = useNavigation();
 
@@ -84,7 +88,7 @@ export default function VideoPlayer() {
       Orientation.lockToLandscape();
     }
 
-    setFullscreen(!fullscreen);
+    setFullScreen(!fullscreen);
   }
 
   function youtubeSeekLeft() {
@@ -159,7 +163,7 @@ export default function VideoPlayer() {
         />
 
         <Overlay>
-          {!overlay ? (
+          {overlay ? (
             <Overlayset overlay>
               <Icon name="backward" onPress={backward} size={25} />
               <Icon
