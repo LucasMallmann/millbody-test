@@ -5,10 +5,17 @@ import React, {
   useCallback,
   useEffect,
 } from 'react';
-import { StyleSheet, TouchableNativeFeedback } from 'react-native';
+import {
+  StyleSheet,
+  TouchableNativeFeedback,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+
 import { useNavigation } from '@react-navigation/native';
 import Video from 'react-native-video';
 import Slider from '@react-native-community/slider';
+import Orientation from 'react-native-orientation';
 
 import getTime from '~/utils/getTime';
 
@@ -22,20 +29,23 @@ import {
   SliderContainer,
   Timer,
   Time,
+  IconWrapper,
+  BlackFullScreen,
 } from './styles';
 
-const mp4 = require('./sample.mp4');
+// const mp4 = require('./sample.mp4');
 
 export default function VideoPlayer() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(3600);
   const [paused, setPaused] = useState(false);
   const [overlay, setOverlay] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
 
   const { addListener } = useNavigation();
 
   useEffect(() => {
-    addListener('blur', () => {
+    return addListener('blur', () => {
       setPaused(true);
     });
   }, [addListener]);
@@ -66,6 +76,16 @@ export default function VideoPlayer() {
       }, DOUBLE_PRESS_DELAY);
     }
   };
+
+  function handleFullscreen() {
+    if (fullscreen) {
+      Orientation.lockToPortrait();
+    } else {
+      Orientation.lockToLandscape();
+    }
+
+    setFullscreen(!fullscreen);
+  }
 
   function youtubeSeekLeft() {
     handleDoubleTap({
@@ -111,11 +131,23 @@ export default function VideoPlayer() {
     overlayTimer();
   }
 
+  const VideoWrraper = useMemo(() => {
+    if (!fullscreen) {
+      return Black;
+    }
+
+    return BlackFullScreen;
+  }, [fullscreen]);
+
   return (
     <Container>
-      <Black>
+      <VideoWrraper fullscreen={fullscreen} elevation={1}>
         <Video
-          source={mp4}
+          fullscreen={fullscreen}
+          source={{
+            uri:
+              'https://d1rfq3h2na8ms8.cloudfront.net/editorial/2018/12-11/Rn8KKQBy-medium.mp4',
+          }}
           paused={paused}
           ref={ref => {
             player.current = ref;
@@ -127,19 +159,30 @@ export default function VideoPlayer() {
         />
 
         <Overlay>
-          {overlay ? (
+          {!overlay ? (
             <Overlayset overlay>
-              <Icon name="backward" onPress={backward} />
+              <Icon name="backward" onPress={backward} size={25} />
               <Icon
                 name={paused ? 'play' : 'pause'}
                 onPress={() => setPaused(!paused)}
+                size={25}
               />
-              <Icon name="forward" onPress={forward} />
+              <Icon name="forward" onPress={forward} size={25} />
 
               <SliderContainer>
                 <Timer>
                   <Time>{formattedCurrentTime}</Time>
-                  <Time>{formattedDuration}</Time>
+                  <IconWrapper>
+                    <Time>{formattedDuration}</Time>
+                    <TouchableOpacity onPress={handleFullscreen}>
+                      <Text style={{ marginLeft: 8 }}>
+                        <Icon
+                          name={fullscreen ? 'compress' : 'expand'}
+                          size={15}
+                        />
+                      </Text>
+                    </TouchableOpacity>
+                  </IconWrapper>
                 </Timer>
 
                 <Slider
@@ -162,7 +205,7 @@ export default function VideoPlayer() {
             </Overlayset>
           )}
         </Overlay>
-      </Black>
+      </VideoWrraper>
     </Container>
   );
 }

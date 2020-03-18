@@ -1,14 +1,25 @@
 import styled from 'styled-components/native';
-import VectorIcon from 'react-native-vector-icons/FontAwesome';
+import VectorIcon from 'react-native-vector-icons/FontAwesome5';
 
 import metrics from '~/styles/metrics';
 
-export const Container = styled.View``;
+export const Container = styled.View`
+  flex: 1;
+`;
 
 export const Black = styled.View`
+  background-color: #000;
   width: ${metrics.screenWidth}px;
   height: ${metrics.screenHeight * 0.4}px;
-  background-color: #000;
+`;
+
+export const BlackFullScreen = styled.View`
+  background: #000;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  position: absolute;
 `;
 
 export const Overlay = styled.View`
@@ -34,7 +45,7 @@ export const Icon = styled(VectorIcon)`
   flex: 1;
   text-align: center;
   align-self: center;
-  font-size: 25px;
+  margin-left: 8px;
 `;
 
 export const SliderContainer = styled.View`
@@ -52,4 +63,9 @@ export const Timer = styled.View`
 
 export const Time = styled.Text`
   color: #fff;
+`;
+
+export const IconWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
 `;
