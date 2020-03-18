@@ -1,6 +1,12 @@
-import React, { useState, useRef, useMemo, useCallback } from 'react';
+import React, {
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+  useEffect,
+} from 'react';
 import { StyleSheet, TouchableNativeFeedback } from 'react-native';
-
+import { useNavigation } from '@react-navigation/native';
 import Video from 'react-native-video';
 import Slider from '@react-native-community/slider';
 
@@ -25,6 +31,14 @@ export default function VideoPlayer() {
   const [duration, setDuration] = useState(3600);
   const [paused, setPaused] = useState(false);
   const [overlay, setOverlay] = useState(false);
+
+  const { addListener } = useNavigation();
+
+  useEffect(() => {
+    addListener('blur', () => {
+      setPaused(true);
+    });
+  }, [addListener]);
 
   const formattedDuration = useMemo(() => getTime(duration), [duration]);
   const formattedCurrentTime = useMemo(() => getTime(currentTime), [
