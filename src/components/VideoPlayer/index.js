@@ -1,5 +1,5 @@
-import React, { useState, useRef, useMemo } from 'react';
-import { Text, StyleSheet, TouchableNativeFeedback } from 'react-native';
+import React, { useState, useRef, useMemo, useCallback } from 'react';
+import { StyleSheet, TouchableNativeFeedback } from 'react-native';
 
 import Video from 'react-native-video';
 import Slider from '@react-native-community/slider';
@@ -33,17 +33,69 @@ export default function VideoPlayer() {
 
   const player = useRef();
 
-  function youtubeSeekLeft() {}
+  const overlayTimer = useCallback(() => {
+    setTimeout(() => setOverlay(false), 2000);
+  }, [setOverlay]);
 
-  function youtubeSeekRight() {}
+  const lastTap = useRef(null);
 
-  function onSlide(value) {
-    console.log(value);
+  const handleDoubleTap = ({ doubleTapCallback, singleTapCallback }) => {
+    const now = Date.now();
+    const DOUBLE_PRESS_DELAY = 200;
+
+    if (lastTap.current && now - lastTap.current < DOUBLE_PRESS_DELAY) {
+      doubleTapCallback();
+    } else {
+      lastTap.current = now;
+      setTimeout(() => {
+        singleTapCallback();
+      }, DOUBLE_PRESS_DELAY);
+    }
+  };
+
+  function youtubeSeekLeft() {
+    handleDoubleTap({
+      doubleTapCallback: () => {
+        player.current.seek(currentTime - 5);
+      },
+      singleTapCallback: () => {
+        setOverlay(true);
+        overlayTimer();
+      },
+    });
   }
 
-  function backward() {}
+  function youtubeSeekRight() {
+    handleDoubleTap({
+      doubleTapCallback: () => {
+        player.current.seek(currentTime + 5);
+      },
+      singleTapCallback: () => {
+        setOverlay(true);
+        overlayTimer();
+      },
+    });
+  }
 
-  function forward() {}
+  function onSlide(slide) {
+    const value = slide * duration;
+    player.current.seek(value);
+    setCurrentTime(value);
+    clearTimeout(overlayTimer);
+    overlayTimer();
+  }
+
+  function backward() {
+    player.current.seek(currentTime - 5);
+    clearTimeout(overlayTimer);
+    overlayTimer();
+  }
+
+  function forward() {
+    player.current.seek(currentTime + 5);
+    clearTimeout(overlayTimer);
+    overlayTimer();
+  }
 
   return (
     <Container>
@@ -61,7 +113,7 @@ export default function VideoPlayer() {
         />
 
         <Overlay>
-          {!overlay ? (
+          {overlay ? (
             <Overlayset overlay>
               <Icon name="backward" onPress={backward} />
               <Icon
@@ -78,8 +130,8 @@ export default function VideoPlayer() {
 
                 <Slider
                   maximumTrackTintColor="#fff"
-                  minimumTrackTintColor="#fff"
-                  thumbTintColor="#fff"
+                  minimumTrackTintColor="#7159c1"
+                  thumbTintColor="#7159c1"
                   value={currentTime / duration}
                   onValueChange={onSlide}
                 />
@@ -87,10 +139,10 @@ export default function VideoPlayer() {
             </Overlayset>
           ) : (
             <Overlayset>
-              <TouchableNativeFeedback>
+              <TouchableNativeFeedback onPress={youtubeSeekLeft}>
                 <OverlayControl />
               </TouchableNativeFeedback>
-              <TouchableNativeFeedback>
+              <TouchableNativeFeedback onPress={youtubeSeekRight}>
                 <OverlayControl />
               </TouchableNativeFeedback>
             </Overlayset>
