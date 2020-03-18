@@ -1,14 +1,21 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-// import { Container } from './styles';
+import { Container } from './styles';
+import VideoPlayer from '~/components/VideoPlayer';
 
 export default function Home() {
-  return (
-    <View>
-      <Text>Home</Text>
+  const { navigate } = useNavigation();
 
-      <Button title="Navigate to User" />
-    </View>
+  return (
+    <Container>
+      <VideoPlayer />
+
+      <TouchableOpacity onPress={() => navigate('Second')}>
+        <Text>Navigate to user</Text>
+      </TouchableOpacity>
+    </Container>
   );
 }
