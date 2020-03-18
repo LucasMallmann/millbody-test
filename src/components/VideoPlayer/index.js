@@ -80,6 +80,10 @@ export default function VideoPlayer({ uri }) {
     });
   }
 
+  function handleLoad({ duration }) {
+    setDuration(duration);
+  }
+
   function onSlide(slide) {
     const value = slide * duration;
     player.current.seek(value);
@@ -117,13 +121,13 @@ export default function VideoPlayer({ uri }) {
       <VideoWrraper fullscreen={fullscreen} elevation={1}>
         <Video
           fullscreen={fullscreen}
-          source={{ uri }}
+          source={uri}
           paused={paused}
           ref={ref => {
             player.current = ref;
           }}
           resizeMode="cover"
-          onLoad={({ duration }) => setDuration(duration)}
+          onLoad={handleLoad}
           onProgress={({ currentTime }) => setCurrentTime(currentTime)}
           style={{ ...StyleSheet.absoluteFill }}
         />
@@ -146,5 +150,5 @@ export default function VideoPlayer({ uri }) {
 }
 
 VideoPlayer.propTypes = {
-  uri: PropTypes.string.isRequired,
+  uri: PropTypes.number.isRequired,
 };
