@@ -36,3 +36,20 @@ export const Icon = styled(VectorIcon)`
   align-self: center;
   font-size: 25px;
 `;
+
+export const SliderContainer = styled.View`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+`;
+
+export const Timer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 5px;
+`;
+
+export const Time = styled.Text`
+  color: #fff;
+`;

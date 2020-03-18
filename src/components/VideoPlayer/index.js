@@ -1,9 +1,11 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { Text, StyleSheet, TouchableNativeFeedback } from 'react-native';
 
 import Video from 'react-native-video';
 // import Icon from 'react-native-vector-icons/FontAwesome';
+
+import getTime from '~/utils/getTime';
 
 import {
   Container,
@@ -12,6 +14,9 @@ import {
   Overlayset,
   OverlayControl,
   Icon,
+  SliderContainer,
+  Timer,
+  Time,
 } from './styles';
 
 const mp4 = require('./sample.mp4');
@@ -26,9 +31,14 @@ const styleShit = {
 
 export default function VideoPlayer() {
   const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0.1);
-  const [paused, setPaused] = useState(true);
+  const [duration, setDuration] = useState(3600);
+  const [paused, setPaused] = useState(false);
   const [overlay, setOverlay] = useState(false);
+
+  const formattedDuration = useMemo(() => getTime(duration), [duration]);
+  const formattedCurrentTime = useMemo(() => getTime(currentTime), [
+    currentTime,
+  ]);
 
   const player = useRef();
 
@@ -64,6 +74,13 @@ export default function VideoPlayer() {
                 onPress={() => setPaused(!paused)}
               />
               <Icon name="forward" onPress={forward} />
+
+              <SliderContainer>
+                <Timer>
+                  <Time>{formattedCurrentTime}</Time>
+                  <Time>{formattedDuration}</Time>
+                </Timer>
+              </SliderContainer>
             </Overlayset>
           ) : (
             <Overlayset>
