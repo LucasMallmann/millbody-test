@@ -5,16 +5,19 @@ import { ThemeContext } from 'styled-components';
 
 import Home from '~/pages/Home';
 import Second from '~/pages/Second';
+import FullScreenContext from './store/FullScreenContext';
 
 const Stack = createStackNavigator();
 
 const Routes = () => {
   const { colors } = useContext(ThemeContext);
+  const { fullscreen } = useContext(FullScreenContext);
 
   return (
     <Stack.Navigator
       initialRouteName="Home"
       screenOptions={{
+        headerShown: !fullscreen,
         headerStyle: {
           backgroundColor: colors.primary,
         },
