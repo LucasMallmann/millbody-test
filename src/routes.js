@@ -5,6 +5,8 @@ import { ThemeContext } from 'styled-components';
 
 import Home from '~/pages/Home';
 import Second from '~/pages/Second';
+import Third from './pages/Third';
+
 import FullScreenContext from './store/FullScreenContext';
 
 const Stack = createStackNavigator();
@@ -36,7 +38,18 @@ const Routes = () => {
           ),
         }}
       />
-      <Stack.Screen name="Second" component={Second} />
+      <Stack.Screen
+        name="Second"
+        component={Second}
+        options={{
+          headerTitle: 'Parte 2',
+        }}
+      />
+      <Stack.Screen
+        name="Third"
+        component={Third}
+        options={{ headerTitle: 'Parte Final' }}
+      />
     </Stack.Navigator>
   );
 };
