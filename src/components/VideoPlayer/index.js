@@ -37,7 +37,7 @@ export default function VideoPlayer({ uri }) {
   const player = useRef();
 
   const overlayTimer = useCallback(() => {
-    setTimeout(() => setOverlay(false), 2000);
+    setTimeout(() => setOverlay(false), 2500);
   }, [setOverlay]);
 
   const lastTap = useRef(null);

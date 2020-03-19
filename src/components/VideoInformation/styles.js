@@ -7,7 +7,7 @@ export const Container = styled.View`
 `;
 
 export const Title = styled.Text`
-  color: ${props => props.theme.colors.primary};
+  color: ${props => props.theme.colors.title};
   align-self: center;
   font-size: 26px;
   text-transform: capitalize;

@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
-import { TouchableOpacity, Text } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ThemeContext } from 'styled-components';
 
 import Home from '~/pages/Home';
 import Second from '~/pages/Second';
 import Third from './pages/Third';
+
+import Switcher from '~/components/Switcher';
 
 import FullScreenContext from './store/FullScreenContext';
 
@@ -31,11 +32,7 @@ const Routes = () => {
         component={Home}
         options={{
           headerTitleAlign: 'center',
-          headerRight: () => (
-            <TouchableOpacity style={{ marginRight: 10 }}>
-              <Text>toggle</Text>
-            </TouchableOpacity>
-          ),
+          headerRight: () => <Switcher />,
         }}
       />
       <Stack.Screen
