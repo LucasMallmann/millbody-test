@@ -8,9 +8,7 @@ Before trying to run this, there are somethings I'd like to draw your attention 
 
 ### Video Files configuration
 
-In order for the app to work, you'll need to download the videos directlly on the project. Yeah, I know this is not a good start to get this going, but I got some internet issues when trying to run the videos straight from the urls. As reported in [this issue](https://github.com/react-native-community/react-native-video/issues/1675), I also had this trouble when trying to run the videos on Android. Perhaps it's because the videos are too heavy or sth. Idk really, I tried hard to make it work, but as soon as I downloaded the videos and put the files references as the video's source, it worked fine. I also couldn't upload the videos to git since I'm limited to 100mb per file :c
-
-So, unfortunetally this is the only way I thought to make it run for you.
+In order for the app to work, you'll need to download the videos directlly on the project. This is due to some internet issues when trying to run the videos straight from the urls, as reported in [this issue](https://github.com/react-native-community/react-native-video/issues/1675). Perhaps it's because the videos are too heavy or sth. Idk really.
 
 There are 3 videos:
 
