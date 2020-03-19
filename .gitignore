@@ -59,3 +59,4 @@ buck-out/
 /ios/Pods/
 
 src/components/VideoPlayer/sample.mp4
+src/videos/
