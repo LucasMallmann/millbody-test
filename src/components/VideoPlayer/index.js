@@ -18,7 +18,7 @@ import { Container, Black, BlackFullScreen } from './styles';
 import FullScreenContext from '~/store/FullScreenContext';
 import Controls from './Controls';
 
-export default function VideoPlayer({ uri }) {
+export default function VideoPlayer({ sample, uri }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(3600);
   const [paused, setPaused] = useState(false);
@@ -121,7 +121,7 @@ export default function VideoPlayer({ uri }) {
       <VideoWrraper fullscreen={fullscreen} elevation={1}>
         <Video
           fullscreen={fullscreen}
-          source={uri}
+          source={sample || { uri }}
           paused={paused}
           ref={ref => {
             player.current = ref;
@@ -149,6 +149,12 @@ export default function VideoPlayer({ uri }) {
   );
 }
 
+VideoPlayer.defaultProps = {
+  uri: '',
+  sample: null,
+};
+
 VideoPlayer.propTypes = {
-  uri: PropTypes.number.isRequired,
+  uri: PropTypes.string,
+  sample: PropTypes.number,
 };

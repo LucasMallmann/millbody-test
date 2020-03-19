@@ -10,7 +10,7 @@ import sample from '~/videos/second.mp4';
 export default function Second() {
   return (
     <Container>
-      <VideoPlayer uri={sample} />
+      <VideoPlayer sample={sample} />
       <VideoInformation title="Parte 2" screenToNavigate="Third">
         Nesse segundo vídeo, você irá continuar aprendendo sobre A Divina
         Comedia. Descubra o que Ulisses disse à Dante enquanto estava no Inferno

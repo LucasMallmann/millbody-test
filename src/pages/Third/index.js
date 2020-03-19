@@ -2,8 +2,6 @@ import React from 'react';
 
 import VideoPlayer from '~/components/VideoPlayer';
 
-// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import { Container } from './styles';
 import VideoInformation from '~/components/VideoInformation';
 
@@ -12,7 +10,7 @@ import sample from '~/videos/third.mp4';
 export default function Third() {
   return (
     <Container>
-      <VideoPlayer uri={sample} />
+      <VideoPlayer sample={sample} />
       <VideoInformation
         title="Último conteúdo!"
         screenToNavigate="Home"
