@@ -10,7 +10,7 @@ export const Switch = styled.Switch.attrs(props => ({
     true: '#3b9eef',
     false: Platform.OS === 'android' ? '#d3d3d3' : '#fbfbfb',
   },
-  thumbColor: props.active ? props.theme.secondary : '#fbfbfb',
+  thumbColor: props.active ? '#3b9eef' : '#fbfbfb',
 }))`
   border-width: 1px;
   border-color: ${props =>
